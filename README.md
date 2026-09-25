@@ -56,6 +56,14 @@ To compile an image request while keeping facts out of the image prompt:
 echo '{"type":"SUB-PLAYER","subject":"Bukayo Saka","pose":"running","orientation":"facing-left","treatment":"editorial-cutout"}' | npm run compile:asset
 ```
 
+Optional image generation is available through provider adapters. The default is offline fallback. Copy `.env.example`, set `FEE_IMAGE_PROVIDER`, and run:
+
+```bash
+npm run generate:asset -- --input examples/image-request.json
+```
+
+`openai-compatible` supports an OpenAI-compatible API or a transparent relay through `FEE_IMAGE_RELAY_URL`. `leonardo` uses the Leonardo generation and polling API through `LEONARDO_API_BASE_URL`, which can point at a trusted HTTPS relay. Generated files are written under the ignored `assets/` directories; keys stay in environment variables. See [`references/image-generation.md`](references/image-generation.md) for the provider contract and fallback behavior.
+
 ## Install the Skill in Codex
 
 From a checked-out copy, point Codex at the repository root because it contains `SKILL.md`. For the GitHub installer, use:

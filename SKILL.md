@@ -32,6 +32,7 @@ Use this skill as the director of a Football Editorial Explainer (FEE) productio
 - Do not put text, numbers, scorelines, dates, statistics, fake crests, or injury status into generated images. Use `scripts/compile-asset-prompt.ts` or `compileAssetPrompt()` to enforce the negative prompt.
 - Do not add glassmorphism, HUD styling, gratuitous glow, universal spring physics, continuous floating, or a drop shadow to every element.
 - Tactical scenes must be programmatic (`TacticalPitchKit`/`TacticalPitch`, zones, players, named movements, trails, arrows, labels). Missing assets fall back to a labeled cutout placeholder so an offline render remains valid.
+- Optional image generation runs through `engine/src/assets/provider.ts`. Keep `FEE_IMAGE_PROVIDER=none` for offline work and CI; use the OpenAI-compatible adapter for direct or relay endpoints, or the Leonardo adapter for Leonardo's asynchronous generation API. Keys come only from environment variables.
 - Every evidence object needs a claim, period, source provider, and `asOf`. Keep xG at one decimal, counts as integers, and never mix competitions or time scopes.
 
 ## References to load by need
@@ -48,5 +49,7 @@ Use this skill as the director of a Football Editorial Explainer (FEE) productio
 Add new patterns to `engine/src/types.ts`, `engine/src/schema.ts`, and `engine/src/scenes/SceneRenderer.tsx` together. Add a motion preset to the whitelist and tests before using it. Keep sample facts in `examples/` and keep credentials in environment variables. Do not commit generated video, private images, or API keys.
 
 For tactical work, use the Tactical Pitch Kit contract in `references/tactical-visualization.md`. Keep pitch points normalized to `0..1`, express player movement as a whitelisted `TacticalMove` action, and let the renderer own interpolation, trails, arrows, zones, labels, direction mirroring, and focus fades. The same tactical data must remain valid when the scene changes crop, perspective, theme, or aspect ratio.
+
+For optional image providers, use the contract in `references/image-generation.md`. Providers may supply environment or subject images only; facts and tactical graphics stay in Remotion. Generated media is downloaded into ignored asset folders before rendering, and a provider failure must return the deterministic placeholder unless strict asset mode is explicitly enabled.
 
 For a new project, clone this repository, run `npm install`, copy `examples/demo-scene-spec.json`, replace the facts and narration, run `npm run validate:scene -- path/to/file.json`, then render through the Remotion entry point described in the README.

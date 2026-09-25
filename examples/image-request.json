@@ -1,0 +1,13 @@
+{
+  "assetId": "saka-running-cutout",
+  "request": {
+    "type": "SUB-PLAYER",
+    "subject": "Bukayo Saka",
+    "pose": "running",
+    "orientation": "facing-left",
+    "treatment": "editorial-cutout"
+  },
+  "width": 1024,
+  "height": 1024,
+  "numImages": 1
+}

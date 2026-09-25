@@ -11,6 +11,7 @@
     "validate:scene": "tsx scripts/validate-scene-spec.ts examples/demo-scene-spec.json",
     "validate:tactical": "tsx scripts/validate-scene-spec.ts examples/tactical-pitch-kit.json",
     "compile:asset": "tsx scripts/compile-asset-prompt.ts",
+    "generate:asset": "tsx scripts/generate-image.ts",
     "select:scenes": "tsx scripts/select-scenes.ts",
     "typecheck": "tsc --noEmit",
     "test": "tsx scripts/smoke-test.ts",
