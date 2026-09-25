@@ -1,0 +1,12 @@
+node_modules/
+out/
+.cache/
+.remotion/
+*.log
+.env
+.env.*
+!.env.example
+assets/environments/*
+assets/subjects/*
+!assets/environments/.gitkeep
+!assets/subjects/.gitkeep

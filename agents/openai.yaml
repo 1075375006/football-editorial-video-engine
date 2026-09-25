@@ -1,0 +1,7 @@
+interface:
+  display_name: "Football Editorial Video Engine"
+  short_description: "Plan and render editorial football preview videos"
+  brand_color: "#E4572E"
+  default_prompt: "Use $football-editorial-video-engine to turn this football preview narration and evidence into a validated SceneSpec and Remotion video."
+policy:
+  allow_implicit_invocation: true

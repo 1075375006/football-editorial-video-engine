@@ -1,0 +1,35 @@
+{
+  "name": "football-editorial-video-engine",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Football Editorial Explainer scene planner and Remotion renderer.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "validate": "npm run validate:skill && npm run validate:scene",
+    "validate:skill": "python scripts/validate_skill.py .",
+    "validate:scene": "tsx scripts/validate-scene-spec.ts examples/demo-scene-spec.json",
+    "compile:asset": "tsx scripts/compile-asset-prompt.ts",
+    "select:scenes": "tsx scripts/select-scenes.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx scripts/smoke-test.ts",
+    "studio": "remotion studio engine/src/index.tsx --no-open",
+    "render:demo": "remotion render engine/src/index.tsx FEE-60s-Demo out/fee-demo.mp4",
+    "render:still": "remotion still engine/src/index.tsx FEE-60s-Demo out/fee-demo.png --frame=120 --scale=0.5"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.528",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "remotion": "4.0.528"
+  },
+  "devDependencies": {
+    "@types/react": "19.1.10",
+    "@types/react-dom": "19.1.7",
+    "tsx": "4.20.5",
+    "typescript": "5.9.2"
+  }
+}

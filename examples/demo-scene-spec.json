@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "0.1",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "id": "hook",
+      "pattern": "HOOK-01",
+      "startFrame": 0,
+      "durationInFrames": 120,
+      "narration": "This match could decide the title race.",
+      "information": {"headline": "ARSENAL VS MANCHESTER CITY", "body": "A match that changes the table."},
+      "motionPreset": ["M01 editorial-slam", "M02 cutout-reveal"]
+    },
+    {
+      "id": "stakes",
+      "pattern": "STAKES-01",
+      "startFrame": 120,
+      "durationInFrames": 150,
+      "narration": "One point separates the two teams.",
+      "information": {"headline": "ONE POINT. ONE TABLE.", "stats": {"arsenal": 70, "city": 69}},
+      "motionPreset": ["M01 editorial-slam", "M06 number-punch"],
+      "evidence": {
+        "motif": "contrast",
+        "claim": "Arsenal lead Manchester City by one point.",
+        "metric": {"key": "points", "label": "League points", "format": "integer"},
+        "values": {"Arsenal": 70, "Manchester City": 69},
+        "period": {"label": "Premier League 2026-27 after matchweek 28"},
+        "scope": {"competition": "Premier League", "venue": "all", "sampleSize": 28},
+        "source": {"provider": "offline fixture", "asOf": "2026-09-25"}
+      }
+    },
+    {
+      "id": "team-a",
+      "pattern": "TEAM-01",
+      "startFrame": 270,
+      "durationInFrames": 180,
+      "narration": "Arsenal are unbeaten in five, but the final third is slowing down.",
+      "information": {"headline": "FORM WITH A WARNING", "body": "Five unbeaten, but the final third is slowing down.", "stats": {"team": "ARSENAL"}},
+      "motionPreset": ["M02 cutout-reveal", "M03 stagger-stack"]
+    },
+    {
+      "id": "team-b",
+      "pattern": "TEAM-01",
+      "startFrame": 450,
+      "durationInFrames": 180,
+      "narration": "City still create chances, but their conversion has slipped.",
+      "information": {"headline": "CONTROL WITHOUT THE FINISH", "body": "The shape is familiar. The margin is not.", "stats": {"team": "CITY"}},
+      "motionPreset": ["M02 cutout-reveal", "M03 stagger-stack"]
+    },
+    {
+      "id": "player",
+      "pattern": "PLAYER-01",
+      "startFrame": 630,
+      "durationInFrames": 180,
+      "narration": "Saka is the player who changes Arsenal's right side.",
+      "information": {"headline": "SAKA", "stats": {"goals": 12, "assists": 8}},
+      "motionPreset": ["M02 cutout-reveal", "M06 number-punch"]
+    },
+    {
+      "id": "formation",
+      "pattern": "TACT-01",
+      "startFrame": 810,
+      "durationInFrames": 210,
+      "narration": "Both teams begin in a 4-3-3 shape.",
+      "information": {"headline": "4–3–3 SHAPE"},
+      "motionPreset": ["M07 tactical-build"]
+    },
+    {
+      "id": "mechanism",
+      "pattern": "TACT-02",
+      "startFrame": 1020,
+      "durationInFrames": 240,
+      "narration": "When Saka moves inside, the fullback can overlap outside him.",
+      "information": {"headline": "WHEN 7 MOVES INSIDE"},
+      "motionPreset": ["M07 tactical-build", "M08 line-draw"]
+    },
+    {
+      "id": "space",
+      "pattern": "TACT-03",
+      "startFrame": 1260,
+      "durationInFrames": 150,
+      "narration": "That rotation exposes the half-space behind the first screen.",
+      "information": {"headline": "THE SPACE IS HERE"},
+      "motionPreset": ["M05 focus-push", "M08 line-draw"]
+    },
+    {
+      "id": "duel",
+      "pattern": "DUEL-01",
+      "startFrame": 1410,
+      "durationInFrames": 180,
+      "narration": "The key battle is Saka against Gvardiol on that side.",
+      "information": {"headline": "SAKA VS GVARDIOL"},
+      "motionPreset": ["M02 cutout-reveal", "M06 number-punch", "M08 line-draw"]
+    },
+    {
+      "id": "out",
+      "pattern": "OUT-01",
+      "startFrame": 1590,
+      "durationInFrames": 210,
+      "narration": "Watch Arsenal's left side, City's midfield screen, and the first transition.",
+      "information": {"headline": "THREE THINGS TO WATCH"},
+      "motionPreset": ["M03 stagger-stack", "M01 editorial-slam"]
+    }
+  ]
+}
