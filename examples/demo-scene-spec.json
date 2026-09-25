@@ -74,7 +74,24 @@
       "durationInFrames": 240,
       "narration": "When Saka moves inside, the fullback can overlap outside him.",
       "information": {"headline": "WHEN 7 MOVES INSIDE"},
-      "motionPreset": ["M07 tactical-build", "M08 line-draw"]
+      "motionPreset": ["M07 tactical-build", "M08 line-draw"],
+      "tactical": {
+        "perspective": "top",
+        "theme": "editorial-green",
+        "attackDirection": "left-to-right",
+        "players": [
+          {"id": "saka", "label": "7", "position": {"x": 0.78, "y": 0.18}, "team": "A", "emphasis": "primary", "buildOrder": 0},
+          {"id": "white", "label": "2", "position": {"x": 0.88, "y": 0.32}, "team": "A", "emphasis": "primary", "buildOrder": 1},
+          {"id": "rice", "label": "6", "position": {"x": 0.6, "y": 0.48}, "team": "A", "buildOrder": 2},
+          {"id": "screen", "label": "3", "position": {"x": 0.72, "y": 0.42}, "team": "B", "buildOrder": 3}
+        ],
+        "movements": [
+          {"id": "saka-inside", "playerId": "saka", "action": "inside-run", "from": {"x": 0.78, "y": 0.18}, "to": {"x": 0.66, "y": 0.37}, "startFrame": 18, "durationInFrames": 18, "showTrail": true, "annotation": "INSIDE"},
+          {"id": "white-overlap", "playerId": "white", "action": "overlap", "from": {"x": 0.88, "y": 0.32}, "to": {"x": 0.96, "y": 0.12}, "startFrame": 24, "durationInFrames": 18, "showTrail": true, "annotation": "OVERLAP"}
+        ],
+        "zones": [{"id": "half-space", "rect": {"x": 0.57, "y": 0.12, "width": 0.22, "height": 0.42}, "label": "TARGET SPACE", "tone": "accent", "startFrame": 48}],
+        "arrows": [{"id": "inside-arrow", "from": {"x": 0.78, "y": 0.18}, "to": {"x": 0.66, "y": 0.37}, "label": "IN", "startFrame": 42}]
+      }
     },
     {
       "id": "space",

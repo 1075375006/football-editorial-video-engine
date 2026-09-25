@@ -1,6 +1,6 @@
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
-import type {SceneSpec} from '../types';
+import type {SceneSpec, TacticalKitPlayer, TacticalMove, TacticalZone} from '../types';
 import {EditorialBackground} from '../components/EditorialBackground';
 import {CutoutSubject} from '../components/CutoutSubject';
 import {BigHeadline} from '../components/BigHeadline';
@@ -15,18 +15,46 @@ const TEAM_A = 'ARSENAL';
 const TEAM_B = 'MANCHESTER CITY';
 
 const players = [
-  {id: 'a-gk', label: 'GK', x: 8, y: 31, team: 'A' as const, role: 'back line'},
-  {id: 'a-6', label: '6', x: 27, y: 31, team: 'A' as const, role: 'anchor'},
-  {id: 'a-8', label: '8', x: 39, y: 17, team: 'A' as const},
-  {id: 'a-10', label: '10', x: 45, y: 44, team: 'A' as const},
-  {id: 'a-7', label: '7', x: 65, y: 18, team: 'A' as const, role: 'inside'},
-  {id: 'a-9', label: '9', x: 78, y: 32, team: 'A' as const},
-  {id: 'b-gk', label: 'GK', x: 92, y: 31, team: 'B' as const, role: 'back line'},
-  {id: 'b-6', label: '6', x: 73, y: 48, team: 'B' as const, role: 'screen'},
-  {id: 'b-8', label: '8', x: 60, y: 50, team: 'B' as const},
-  {id: 'b-10', label: '10', x: 53, y: 26, team: 'B' as const},
-  {id: 'b-7', label: '7', x: 35, y: 50, team: 'B' as const},
-  {id: 'b-9', label: '9', x: 22, y: 31, team: 'B' as const},
+  {id: 'a-gk', label: 'GK', x: 8, y: 50, team: 'A' as const, role: 'goalkeeper', buildOrder: 0},
+  {id: 'a-rb', label: '2', x: 20, y: 15, team: 'A' as const, role: 'right back', buildOrder: 1},
+  {id: 'a-rcb', label: '4', x: 20, y: 38, team: 'A' as const, buildOrder: 2},
+  {id: 'a-lcb', label: '5', x: 20, y: 62, team: 'A' as const, buildOrder: 3},
+  {id: 'a-lb', label: '3', x: 20, y: 85, team: 'A' as const, role: 'left back', buildOrder: 4},
+  {id: 'a-6', label: '6', x: 36, y: 50, team: 'A' as const, role: 'anchor', buildOrder: 5},
+  {id: 'a-8', label: '8', x: 43, y: 28, team: 'A' as const, buildOrder: 6},
+  {id: 'a-10', label: '10', x: 43, y: 72, team: 'A' as const, buildOrder: 7},
+  {id: 'a-11', label: '11', x: 63, y: 15, team: 'A' as const, buildOrder: 8},
+  {id: 'a-9', label: '9', x: 73, y: 50, team: 'A' as const, buildOrder: 9},
+  {id: 'a-7', label: '7', x: 63, y: 85, team: 'A' as const, role: 'inside', buildOrder: 10},
+  {id: 'b-gk', label: 'GK', x: 92, y: 50, team: 'B' as const, role: 'goalkeeper', buildOrder: 11},
+  {id: 'b-lb', label: '2', x: 80, y: 15, team: 'B' as const, buildOrder: 12},
+  {id: 'b-lcb', label: '4', x: 80, y: 38, team: 'B' as const, buildOrder: 13},
+  {id: 'b-rcb', label: '5', x: 80, y: 62, team: 'B' as const, buildOrder: 14},
+  {id: 'b-rb', label: '3', x: 80, y: 85, team: 'B' as const, buildOrder: 15},
+  {id: 'b-6', label: '6', x: 64, y: 50, team: 'B' as const, role: 'screen', buildOrder: 16},
+  {id: 'b-8', label: '8', x: 57, y: 28, team: 'B' as const, buildOrder: 17},
+  {id: 'b-10', label: '10', x: 57, y: 72, team: 'B' as const, buildOrder: 18},
+  {id: 'b-7', label: '7', x: 37, y: 15, team: 'B' as const, buildOrder: 19},
+  {id: 'b-9', label: '9', x: 27, y: 50, team: 'B' as const, buildOrder: 20},
+  {id: 'b-11', label: '11', x: 37, y: 85, team: 'B' as const, buildOrder: 21},
+];
+
+const mechanismPlayers: TacticalKitPlayer[] = [
+  {id: 'saka', label: '7', name: 'SAKA', position: {x: 0.78, y: 0.18}, team: 'A', role: 'inside run', emphasis: 'primary', buildOrder: 0},
+  {id: 'white', label: '2', name: 'WHITE', position: {x: 0.88, y: 0.32}, team: 'A', role: 'overlap', emphasis: 'primary', buildOrder: 1},
+  {id: 'rice', label: '6', name: 'RICE', position: {x: 0.60, y: 0.48}, team: 'A', role: 'cover', emphasis: 'secondary', buildOrder: 2},
+  {id: 'gvardiol', label: '3', name: 'GVARDIOL', position: {x: 0.72, y: 0.42}, team: 'B', role: 'screen', emphasis: 'secondary', buildOrder: 3},
+  {id: 'city-8', label: '8', position: {x: 0.60, y: 0.28}, team: 'B', role: 'midfield screen', emphasis: 'muted', buildOrder: 4},
+];
+
+const mechanismMoves: TacticalMove[] = [
+  {id: 'saka-inside', playerId: 'saka', action: 'inside-run', from: {x: 0.78, y: 0.18}, to: {x: 0.66, y: 0.37}, startFrame: 18, durationInFrames: 18, showTrail: true, annotation: 'INSIDE'},
+  {id: 'white-overlap', playerId: 'white', action: 'overlap', from: {x: 0.88, y: 0.32}, to: {x: 0.96, y: 0.12}, startFrame: 24, durationInFrames: 18, showTrail: true, annotation: 'OVERLAP'},
+  {id: 'rice-cover', playerId: 'rice', action: 'cover', from: {x: 0.60, y: 0.48}, to: {x: 0.54, y: 0.44}, startFrame: 30, durationInFrames: 16, showTrail: true, annotation: 'COVER'},
+];
+
+const mechanismZones: TacticalZone[] = [
+  {id: 'right-half-space', x: 0.57, y: 0.12, width: 0.22, height: 0.42, label: 'TARGET SPACE', tone: 'accent', opacity: 0.72, startFrame: 48, focus: true},
 ];
 
 const SceneCanvas: React.FC<{scene: SceneSpec; children: React.ReactNode; tone?: 'paper' | 'dark' | 'field'}> = ({scene, children, tone = 'paper'}) => {
@@ -59,11 +87,11 @@ export const SceneRenderer: React.FC<{scene: SceneSpec}> = ({scene}) => {
     case 'DUEL-01':
       return <SceneCanvas scene={scene}><div style={{position: 'absolute', left: 80, top: 70, right: 80, display: 'flex', justifyContent: 'space-between', zIndex: 4}}><div style={{fontSize: 22, color: FEE_COLORS.teamA, letterSpacing: 4}}>KEY BATTLE</div><div style={{fontSize: 22, color: FEE_COLORS.teamB, letterSpacing: 4}}>RIGHT HALF-SPACE</div></div><CutoutSubject name="SAKA" team="A" side="left" sceneDuration={scene.durationInFrames} revealStart={5} /><CutoutSubject name="GVARDIOL" team="B" side="right" sceneDuration={scene.durationInFrames} revealStart={12} /><div style={{position: 'absolute', left: '50%', top: '44%', translate: '-50% -50%', zIndex: 7, fontFamily: 'Arial Black, Arial, sans-serif', fontSize: 100, color: FEE_COLORS.accent}}>VS</div><Annotation type="arrow" from={[32, 46]} to={[68, 40]} label="space" start={28} /></SceneCanvas>;
     case 'TACT-01':
-      return <SceneCanvas scene={scene} tone="field"><div style={{position: 'absolute', left: 70, top: 42, zIndex: 4}}><div style={{fontSize: 22, letterSpacing: 4}}>FORMATION BOARD</div><BigHeadline color={FEE_COLORS.white} size={82} start={0}>{info.headline ?? '4–3–3 SHAPE'}</BigHeadline></div><TacticalPitch players={players} start={8} /></SceneCanvas>;
+      return <SceneCanvas scene={scene} tone="field"><div style={{position: 'absolute', left: 70, top: 42, zIndex: 4}}><div style={{fontSize: 22, letterSpacing: 4}}>FORMATION BOARD</div><BigHeadline color={FEE_COLORS.white} size={82} start={0}>{info.headline ?? '4–3–3 SHAPE'}</BigHeadline></div><TacticalPitch players={scene.tactical?.players ?? players} movements={scene.tactical?.movements} zones={scene.tactical?.zones} arrows={scene.tactical?.arrows} annotations={scene.tactical?.annotations} perspective={scene.tactical?.perspective ?? 'top'} theme={scene.tactical?.theme ?? 'editorial-green'} attackDirection={scene.tactical?.attackDirection ?? 'left-to-right'} crop={scene.tactical?.crop} focusPlayerIds={scene.tactical?.focusPlayerIds} focusZoneId={scene.tactical?.focusZoneId} muted={scene.tactical?.muted} start={8} frameOffset={scene.startFrame} /></SceneCanvas>;
     case 'TACT-02':
-      return <SceneCanvas scene={scene} tone="field"><div style={{position: 'absolute', left: 70, top: 42, zIndex: 4}}><div style={{fontSize: 22, letterSpacing: 4}}>TACTICAL MECHANISM</div><BigHeadline color={FEE_COLORS.white} size={70} start={0}>{info.headline ?? 'WHEN 7 MOVES INSIDE'}</BigHeadline></div><TacticalPitch players={players} zones={[{id: 'right-half-space', x: 55, y: 12, width: 25, height: 38, label: 'SPACE', tone: 'accent'}]} arrows={[{id: 'saka-inside', from: [65, 18], to: [58, 32], label: 'in'}, {id: 'white-overlap', from: [78, 32], to: [87, 20], label: 'over'}]} start={8} /></SceneCanvas>;
+      return <SceneCanvas scene={scene} tone="field"><div style={{position: 'absolute', left: 70, top: 42, zIndex: 4}}><div style={{fontSize: 22, letterSpacing: 4}}>TACTICAL MECHANISM</div><BigHeadline color={FEE_COLORS.white} size={70} start={0}>{info.headline ?? 'WHEN 7 MOVES INSIDE'}</BigHeadline></div><TacticalPitch players={scene.tactical?.players ?? mechanismPlayers} movements={scene.tactical?.movements ?? mechanismMoves} zones={scene.tactical?.zones ?? mechanismZones} arrows={scene.tactical?.arrows ?? [{id: 'mechanism-arrow', from: {x: 0.78, y: 0.18}, to: {x: 0.66, y: 0.37}, label: 'IN', startFrame: 42}, {id: 'overlap-arrow', from: {x: 0.88, y: 0.32}, to: {x: 0.96, y: 0.12}, label: 'OVER', startFrame: 46}]} annotations={scene.tactical?.annotations} perspective={scene.tactical?.perspective ?? 'top'} theme={scene.tactical?.theme ?? 'editorial-green'} attackDirection={scene.tactical?.attackDirection ?? 'left-to-right'} crop={scene.tactical?.crop} focusPlayerIds={scene.tactical?.focusPlayerIds} focusZoneId={scene.tactical?.focusZoneId} muted={scene.tactical?.muted} showPlayerLabels start={8} frameOffset={scene.startFrame} /></SceneCanvas>;
     case 'TACT-03':
-      return <SceneCanvas scene={scene} tone="field"><div style={{position: 'absolute', left: 70, top: 42, zIndex: 4}}><div style={{fontSize: 22, letterSpacing: 4}}>SPACE REVEAL</div><BigHeadline color={FEE_COLORS.white} size={88} start={0}>{info.headline ?? 'THE SPACE IS HERE'}</BigHeadline></div><TacticalPitch players={players} muted zones={[{id: 'exposed', x: 42, y: 14, width: 22, height: 36, label: 'SPACE', tone: 'warning'}]} arrows={[{id: 'expose', from: [73, 47], to: [53, 31], label: 'protect'}]} start={8} /></SceneCanvas>;
+      return <SceneCanvas scene={scene} tone="field"><div style={{position: 'absolute', left: 70, top: 42, zIndex: 4}}><div style={{fontSize: 22, letterSpacing: 4}}>SPACE REVEAL</div><BigHeadline color={FEE_COLORS.white} size={88} start={0}>{info.headline ?? 'THE SPACE IS HERE'}</BigHeadline></div><TacticalPitch players={scene.tactical?.players ?? mechanismPlayers} movements={scene.tactical?.movements ?? mechanismMoves} zones={scene.tactical?.zones ?? [{id: 'exposed', x: 0.42, y: 0.14, width: 0.22, height: 0.36, label: 'SPACE', tone: 'warning', focus: true, startFrame: 44}]} arrows={scene.tactical?.arrows ?? [{id: 'expose', from: {x: 0.73, y: 0.47}, to: {x: 0.53, y: 0.31}, label: 'PROTECT', tone: 'warning', startFrame: 56}]} annotations={scene.tactical?.annotations} perspective={scene.tactical?.perspective ?? 'detail'} theme={scene.tactical?.theme ?? 'mono-focus'} attackDirection={scene.tactical?.attackDirection ?? 'left-to-right'} crop={scene.tactical?.crop} focusPlayerIds={scene.tactical?.focusPlayerIds ?? ['saka', 'rice', 'gvardiol']} focusZoneId={scene.tactical?.focusZoneId ?? 'exposed'} muted={scene.tactical?.muted} showPlayerLabels start={8} frameOffset={scene.startFrame} /></SceneCanvas>;
     case 'DATA-01':
       return <SceneCanvas scene={scene}><div style={{position: 'absolute', left: 80, top: 70}}><div style={{fontSize: 22, letterSpacing: 4, color: FEE_COLORS.muted}}>ONE DATA POINT</div><BigHeadline size={76} start={0}>{info.headline ?? 'WHO CREATES THE BETTER CHANCES?'}</BigHeadline></div>{info.stats?.mode === 'delta' ? <EvidenceNumber claim="MANCHESTER CITY UNDERPERFORMS ITS CHANCES" value={info.stats?.delta ?? '-3.4'} unit="GOALS" period="Premier League · Last 8 matches" source={scene.evidence?.source.provider ?? 'offline fixture'} start={12} /> : <ComparisonBlock left={{label: TEAM_A, value: info.stats?.arsenalXg ?? '2.1'}} right={{label: 'CITY', value: info.stats?.cityXg ?? '1.4'}} delta={info.stats?.difference ? `+${info.stats.difference}` : '+0.7'} start={12} />}</SceneCanvas>;
     case 'HIST-01':

@@ -68,6 +68,7 @@ export interface SceneSpec {
     stats?: Record<string, string | number>;
   };
   annotations?: SceneAnnotation[];
+  tactical?: TacticalSceneSpec;
   motionPreset: MotionPreset[];
   evidence?: EvidenceSpec;
 }
@@ -120,10 +121,15 @@ export interface EvidenceSpec {
 export interface TacticalPlayer {
   id: string;
   label: string;
-  x: number;
-  y: number;
+  /** Normalized pitch position (0..1). x/y are kept as a legacy adapter. */
+  position?: PitchPoint;
+  x?: number;
+  y?: number;
   team: 'A' | 'B';
   role?: string;
+  name?: string;
+  emphasis?: 'primary' | 'secondary' | 'muted';
+  buildOrder?: number;
 }
 
 export interface TacticalZone {
@@ -134,13 +140,117 @@ export interface TacticalZone {
   height: number;
   label?: string;
   tone?: 'accent' | 'warning' | 'teamA' | 'teamB';
+  opacity?: number;
+  startFrame?: number;
+  endFrame?: number;
+  focus?: boolean;
 }
 
 export interface TacticalArrow {
   id: string;
-  from: [number, number];
-  to: [number, number];
+  from: [number, number] | PitchPoint;
+  to: [number, number] | PitchPoint;
   label?: string;
+  startFrame?: number;
+  durationInFrames?: number;
+  tone?: 'accent' | 'warning' | 'teamA' | 'teamB';
+  dashed?: boolean;
+}
+
+/** A stable, normalized point on the pitch. */
+export interface PitchPoint {
+  x: number;
+  y: number;
+}
+
+export interface PitchRect extends PitchPoint {
+  width: number;
+  height: number;
+}
+
+export type TacticalPerspective = 'top' | 'isometric' | 'detail';
+export type TacticalTheme = 'editorial-green' | 'paper-tactical' | 'mono-focus';
+export type AttackDirection = 'left-to-right' | 'right-to-left';
+
+export type TacticalAction =
+  | 'inside-run'
+  | 'overlap'
+  | 'cover'
+  | 'drop'
+  | 'press'
+  | 'rotate'
+  | 'switch';
+
+/** A named football action that can be interpolated deterministically. */
+export interface TacticalMove {
+  id: string;
+  playerId: string;
+  action: TacticalAction;
+  from: PitchPoint;
+  to: PitchPoint;
+  startFrame: number;
+  durationInFrames: number;
+  showTrail?: boolean;
+  annotation?: string;
+}
+
+export interface TacticalKitPlayer {
+  id: string;
+  label: string;
+  position: PitchPoint;
+  team: 'A' | 'B' | 'neutral';
+  role?: string;
+  name?: string;
+  emphasis?: 'primary' | 'secondary' | 'muted';
+  buildOrder?: number;
+}
+
+export interface TacticalKitZone {
+  id: string;
+  rect: PitchRect;
+  label?: string;
+  tone?: 'accent' | 'warning' | 'teamA' | 'teamB';
+  opacity?: number;
+  startFrame?: number;
+  endFrame?: number;
+  focus?: boolean;
+}
+
+export interface TacticalAnnotation {
+  id: string;
+  type: 'label' | 'circle' | 'line' | 'callout';
+  label?: string;
+  point?: PitchPoint;
+  from?: PitchPoint;
+  to?: PitchPoint;
+  targetId?: string;
+  startFrame?: number;
+  durationInFrames?: number;
+  tone?: 'accent' | 'warning' | 'teamA' | 'teamB';
+}
+
+export interface TacticalBall {
+  position: PitchPoint;
+  label?: string;
+  team?: 'A' | 'B' | 'neutral';
+}
+
+export interface PitchCrop extends PitchRect {}
+
+export interface TacticalSceneSpec {
+  perspective?: TacticalPerspective;
+  theme?: TacticalTheme;
+  attackDirection?: AttackDirection;
+  crop?: PitchCrop;
+  players?: Array<TacticalPlayer | TacticalKitPlayer>;
+  movements?: TacticalMove[];
+  zones?: Array<TacticalZone | TacticalKitZone>;
+  arrows?: TacticalArrow[];
+  annotations?: TacticalAnnotation[];
+  ball?: TacticalBall;
+  focusPlayerIds?: string[];
+  focusZoneId?: string;
+  muted?: boolean;
 }
 
 export interface AssetRequest {

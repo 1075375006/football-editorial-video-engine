@@ -8,6 +8,7 @@ Football Editorial Explainer (FEE) is a reusable Codex Skill plus a small Remoti
 - A 14-pattern scene library, nine motion presets, four-layer visual grammar, and evidence rules in `references/`.
 - TypeScript contracts and validation for `SceneSpec` and `EvidenceSpec`.
 - A deterministic tactical pitch, annotations, editorial data primitives, and scene renderer.
+- A reusable Tactical Pitch Kit with normalized coordinates, top/isometric/detail views, three themes, attack-direction mirroring, named player movements, trails, zones, arrows, and focus reveals.
 - A 60-second, 30fps, 1920×1080 offline demo with no API key and no private media.
 
 ## Run locally
@@ -21,6 +22,8 @@ npm test
 npm run studio
 # in another terminal, when you want a file:
 npm run render:demo
+# tactical mechanism still (frame 1100)
+npm run render:tactical-still
 ```
 
 The rendered file is `out/fee-demo.mp4`. To validate another SceneSpec:
@@ -28,6 +31,24 @@ The rendered file is `out/fee-demo.mp4`. To validate another SceneSpec:
 ```bash
 npm run validate:scene -- path/to/scene-spec.json
 ```
+
+The tactical fixture is ready to validate and render as part of the same contract:
+
+```bash
+npx tsx scripts/validate-scene-spec.ts examples/tactical-pitch-kit.json
+```
+
+Tactical data uses normalized `0..1` points. A scene can describe a named movement instead of hand-writing animation:
+
+```ts
+{
+  id: 'saka-inside', playerId: 'saka', action: 'inside-run',
+  from: {x: 0.78, y: 0.18}, to: {x: 0.66, y: 0.37},
+  startFrame: 18, durationInFrames: 18, showTrail: true
+}
+```
+
+The renderer keeps the pitch, markers, labels, arrows, and facts programmatic. See [`references/tactical-visualization.md`](references/tactical-visualization.md) for the coordinate and timing contract.
 
 To compile an image request while keeping facts out of the image prompt:
 
