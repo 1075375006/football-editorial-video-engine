@@ -40,7 +40,7 @@ echo '{"type":"SUB-PLAYER","subject":"Bukayo Saka","pose":"running","orientation
 From a checked-out copy, point Codex at the repository root because it contains `SKILL.md`. For the GitHub installer, use:
 
 ```bash
-python install-skill-from-github.py --repo 1075375006/football-editorial-video-engine
+python <CODEX_HOME>/skills/.system/skill-installer/scripts/install-skill-from-github.py --repo 1075375006/football-editorial-video-engine
 ```
 
 The exact installer command can vary by Codex distribution; the important requirement is that the selected path contains the root `SKILL.md`. The engine remains available to the Skill through the same checkout.
